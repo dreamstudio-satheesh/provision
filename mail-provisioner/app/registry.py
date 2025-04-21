@@ -7,11 +7,12 @@ from app.utils import slugify
 TENANTS_FILE = os.path.join(os.path.dirname(__file__), '..', 'tenants', 'tenants.yaml')
 
 # For demo: simple round-robin/static list
-AVAILABLE_VMS = [
-    "vm-alpha.servcp.com",
-    "vm-beta.servcp.com",
-    "vm-gamma.servcp.com",
-]
+""" AVAILABLE_VMS = [
+    "alpha.local",
+    "beta.local",
+    "gamma.local",
+] """
+AVAILABLE_VMS = ["dreamhost.local"]
 
 def load_registry() -> dict:
     if not os.path.exists(TENANTS_FILE):
@@ -37,4 +38,5 @@ def register_tenant(domain: str, vm: str):
 
 # Simple static round-robin fallback
 _next = 0
-def select_vm(domain: str) -> str_
+def select_vm(domain: str) -> str:
+    return "dreamhost.local"
