@@ -1,0 +1,10 @@
+chmod +x bootstrap_vm.sh
+./bootstrap_vm.sh
+
+
+Open Firewall Ports (if applicable)
+Allow these ports in your firewall or cloud security group:
+
+TCP 25, 587, 143, 993, 110 → HAProxy (mail)
+
+TCP 80, 443 → Caddy (JMAP/Admin)

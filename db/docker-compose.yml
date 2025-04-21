@@ -1,0 +1,38 @@
+services:
+  db:
+    image: postgres:16
+    container_name: postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: supersecret
+      POSTGRES_DB: maildb
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - mail_net
+
+  provisioner:
+    build: ./mail-provisioner
+    container_name: mail-provisioner
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./mail-provisioner/tenants:/app/tenants
+      - ./mail-provisioner/templates:/app/templates
+      - ~/.ssh:/root/.ssh:ro
+    env_file:
+      - ./mail-provisioner/.env
+    networks:
+      - mail_net
+    depends_on:
+      - db
+
+networks:
+  mail_net:
+    driver: bridge
+
+volumes:
+  pgdata:

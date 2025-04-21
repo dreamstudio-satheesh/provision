@@ -1,0 +1,51 @@
+[server]
+hostname = "{{ domain }}"
+max-connections = 1000
+log-level = "info"
+
+[store."postgresql"]
+type = "postgresql"
+host = "{{ db_host }}"
+port = {{ db_port }}
+database = "{{ db_name }}"
+user = "{{ db_user }}"
+password = "{{ db_password }}"
+timeout = "15s"
+
+[store."postgresql".tls]
+enable = false
+allow-invalid-certs = false
+
+[store."postgresql".pool]
+max-connections = 10
+
+[listen."smtp"]
+bind = "0.0.0.0:25"
+protocol = "smtp"
+
+[listen."submission"]
+bind = "0.0.0.0:587"
+protocol = "smtp"
+submission = true
+starttls = true
+
+[listen."imap"]
+bind = "0.0.0.0:143"
+protocol = "imap"
+starttls = true
+
+[listen."jmap"]
+bind = "0.0.0.0:8080"
+protocol = "jmap"
+tls = false
+
+[listen."admin"]
+bind = "0.0.0.0:8080"
+protocol = "http"
+tls = false
+
+[auth]
+method = "password"
+
+[auth.users]
+"admin@{{ domain }}" = "changeme123"

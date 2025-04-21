@@ -1,0 +1,37 @@
+services:
+  haproxy:
+    image: haproxy:2.9
+    container_name: haproxy
+    restart: unless-stopped
+    ports:
+      - "25:25"
+      - "587:587"
+      - "143:143"
+      - "993:993"
+      - "110:110"
+    volumes:
+      - /etc/haproxy:/usr/local/etc/haproxy
+    networks:
+      - mail_net
+
+  caddy:
+    image: caddy:latest
+    container_name: caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /etc/caddy:/etc/caddy
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - mail_net
+
+networks:
+  mail_net:
+    driver: bridge
+
+volumes:
+  caddy_data:
+  caddy_config:

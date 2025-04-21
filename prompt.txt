@@ -1,0 +1,46 @@
+Design and implement a production-grade FastAPI-based provisioning API to automate multi-tenant Stalwart Mail Server deployment across multiple pre-provisioned virtual machines (VMs). Each VM is manually provisioned and runs Docker Engine along with two key containers: HAProxy for SMTP/IMAP/POP3 routing based on domain/SNI, and Caddy for HTTPS reverse proxying of JMAP and Admin endpoints.
+
+Provisioning must be triggered via a single HTTP POST request to the FastAPI backend (e.g., POST /provision) with the tenant domain provided in the request payload.
+
+System Goals: Deploy a dedicated Stalwart Mail Server container for each tenant (per domain) on a selected VM.
+
+Automatically perform the following tasks:
+- Determine a suitable target VM for deployment using round-robin, capacity-based logic, or static mapping.
+- Generate a tenant-specific Docker Compose file from a template and deploy it to the selected VM via SSH.
+- Create a schema in a shared PostgreSQL instance to isolate tenant mail data (e.g., schema name: domain_com).
+- Update HAProxy configuration on the target VM to support SMTP, IMAP, and POP3 routing using domain or SNI-based rules.
+- Update Caddy configuration to proxy:
+    - alpha.servcp.com/{tenant}/jmap → port 8080 of the tenant mail container
+    - nexus.servcp.com/{tenant}/admin → port 8080 of the tenant mail container
+- Reload both HAProxy and Caddy on the VM with zero downtime using hot reload mechanisms.
+
+Constraints and Assumptions:
+- All VMs are manually provisioned and accessible over SSH from the provisioning host.
+- Docker is installed and operational on each VM.
+- HAProxy and Caddy containers are already running and ready for dynamic configuration injection.
+- DNS records for all tenant domains and subdomains will be manually created using instructions from the Stalwart Mail Server admin/API. No automated DNS updates are required.
+- Mail containers will use secure Docker networks (e.g., mail_net) with minimal and necessary port exposure.
+- Each tenant will have a securely stored .env file for credentials and domain-specific settings.
+
+Provisioning Components:
+- FastAPI application (e.g., main.py) exposing a POST /provision endpoint.
+- ssh_client.py to handle secure file transfers and remote command execution via SSH.
+- docker_compose.tpl.yml: Jinja2-based template for generating Docker Compose files for tenant deployment.
+- create_schema.sql: SQL file template for initializing PostgreSQL schema per tenant.
+- haproxy_updater.py: Script/module to inject new backend definitions and SNI rules into the HAProxy config.
+- caddy_updater.py: Script/module to insert JMAP/Admin routes into Caddy config.
+- tenants.yaml or tenants.json: Registry of provisioned tenants, including VM assignment and configuration state.
+
+Security Considerations:
+- API authentication and authorization must be enforced for all provisioning actions.
+- Secrets and environment variables must be encrypted or stored using secure file-based secret management.
+- Remote file transfers and executions must use key-based SSH with restricted permissions.
+- Caddy must use Let’s Encrypt to auto-provision and renew certificates for each tenant’s JMAP and Admin endpoints.
+
+Scalability and Observability:
+- Design system for linear horizontal scalability, supporting 100+ tenants.
+- Ensure provisioning logic is idempotent and can safely retry failed steps.
+- Optional: Integrate Prometheus exporters and node_exporter on each VM for metrics collection.
+- Optional: Collect logs using Loki and expose dashboards via Grafana.
+
+The system must ensure tenant isolation, enable secure and modular configuration per VM, and reliably orchestrate deployment of mail infrastructure via a centralized, API-driven provisioning service.

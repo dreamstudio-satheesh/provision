@@ -1,0 +1,8 @@
+fastapi
+uvicorn[standard]
+jinja2
+httpx
+paramiko
+psycopg2-binary
+pyyaml
+python-dotenv

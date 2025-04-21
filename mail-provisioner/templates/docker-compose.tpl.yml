@@ -1,0 +1,22 @@
+
+services:
+  mail:
+    image: stalwartlabs/mail:latest
+    container_name: mail_{{ tenant }}
+    volumes:
+     - ./config.toml:/etc/stalwart/config.toml
+    env_file:
+      - .env
+    networks:
+      - mail_net
+    ports:
+      - "25"
+      - "587"
+      - "143"
+      - "993"
+      - "8080"  # JMAP + Admin
+    restart: unless-stopped
+
+networks:
+  mail_net:
+    external: true
