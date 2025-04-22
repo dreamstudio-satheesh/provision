@@ -1,7 +1,7 @@
 
 services:
   mail:
-    image: stalwartlabs/mail:latest
+    image: stalwartlabs/mail-server:latest
     container_name: mail_{{ tenant }}
     volumes:
      - ./config.toml:/etc/stalwart/config.toml

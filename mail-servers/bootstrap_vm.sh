@@ -69,5 +69,7 @@ EOF
 echo "🚀 Starting Docker services..."
 docker compose up -d
 
+docker network create mail_net
+
 echo "✅ VM is ready! HAProxy + Caddy are running."
 docker ps
