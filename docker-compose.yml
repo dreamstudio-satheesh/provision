@@ -4,9 +4,9 @@ services:
     container_name: postgres
     restart: unless-stopped
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: admin@app.com0989
-      POSTGRES_DB: maildb
+      POSTGRES_USER: mail_admin
+      POSTGRES_PASSWORD: admin@app.com8593
+      POSTGRES_DB: mail_db
     volumes:
       - pgdata:/var/lib/postgresql/data
     ports:
