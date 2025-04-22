@@ -56,4 +56,4 @@ def generate(domain: str) -> tuple[str, str, str]:
         f.write(f"DB_USER={db_user}\n")
         f.write(f"DB_PASSWORD={db_pass}\n")
 
-    return compose_path, env_path, config_path
+    return compose_path, config_path, env_path

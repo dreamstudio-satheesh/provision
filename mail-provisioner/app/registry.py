@@ -12,7 +12,7 @@ TENANTS_FILE = os.path.join(os.path.dirname(__file__), '..', 'tenants', 'tenants
     "beta.local",
     "gamma.local",
 ] """
-AVAILABLE_VMS = ["10.1.0.2"]
+AVAILABLE_VMS = ["10.1.0.3"]
 
 def load_registry() -> dict:
     if not os.path.exists(TENANTS_FILE):
@@ -39,4 +39,4 @@ def register_tenant(domain: str, vm: str):
 # Simple static round-robin fallback
 _next = 0
 def select_vm(domain: str) -> str:
-    return "10.1.0.2"
+    return "10.1.0.3"

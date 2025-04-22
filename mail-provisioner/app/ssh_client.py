@@ -4,7 +4,7 @@ import os
 def _connect(vm: str):
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    ssh.connect(vm, username="root", key_filename=os.path.expanduser("~/.ssh/id_rsa"))
+    ssh.connect(vm, username="root", key_filename=os.path.expanduser("~/.ssh/id_ed25519"))
     return ssh
 
 def _run(ssh, cmd):
