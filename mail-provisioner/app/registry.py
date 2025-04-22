@@ -12,7 +12,7 @@ TENANTS_FILE = os.path.join(os.path.dirname(__file__), '..', 'tenants', 'tenants
     "beta.local",
     "gamma.local",
 ] """
-AVAILABLE_VMS = ["dreamhost.local"]
+AVAILABLE_VMS = ["10.1.0.2"]
 
 def load_registry() -> dict:
     if not os.path.exists(TENANTS_FILE):
