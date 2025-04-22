@@ -3,7 +3,7 @@ from jinja2 import Environment, FileSystemLoader
 from app.ssh_client import run_remote_command, upload_file
 from app.utils import slugify
 
-TEMPLATES_DIR = os.path.join(os.path.dirname(__file__), '..', 'templates')
+TEMPLATES_DIR = os.path.join(os.path.dirname(__file__), 'templates')
 CONFIG_FILE_NAME = "haproxy.cfg"
 REMOTE_CONFIG_PATH = "/etc/haproxy/haproxy.cfg"
 REMOTE_TMP_PATH = "/tmp/haproxy.cfg"
