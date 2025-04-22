@@ -39,4 +39,4 @@ def register_tenant(domain: str, vm: str):
 # Simple static round-robin fallback
 _next = 0
 def select_vm(domain: str) -> str:
-    return "dreamhost.local"
+    return "10.1.0.2"
