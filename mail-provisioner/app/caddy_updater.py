@@ -33,3 +33,7 @@ def reload(vm: str):
     Reloads Caddy configuration with zero downtime.
     """
     run_remote_command(vm, "docker exec caddy caddy reload --config /etc/caddy/Caddyfile")
+
+def update(domain: str, tenant_slug: str, vm: str = "10.1.0.3"):
+    inject_routes(domain, tenant_slug, vm)
+    reload(vm)

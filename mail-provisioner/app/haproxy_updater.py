@@ -39,3 +39,7 @@ def reload(vm: str):
     Reload HAProxy with zero downtime using a hot reload signal.
     """
     run_remote_command(vm, "docker kill -s HUP haproxy")
+
+def update(domain: str, tenant_slug: str, vm: str = "10.1.0.3"):
+    inject_backend(domain, tenant_slug, vm)
+    reload(vm)

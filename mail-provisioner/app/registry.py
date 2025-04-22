@@ -36,6 +36,15 @@ def register_tenant(domain: str, vm: str):
     }
     save_registry(tenants)
 
+def update_haproxy(domain: str, slug: str):
+    vm = select_vm(domain)
+    haproxy_updater.update(domain, slug, vm)
+
+def update_caddy(domain: str, slug: str):
+    vm = select_vm(domain)
+    caddy_updater.update(domain, slug, vm)
+
+
 # Simple static round-robin fallback
 _next = 0
 def select_vm(domain: str) -> str:
