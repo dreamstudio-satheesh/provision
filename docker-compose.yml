@@ -24,7 +24,7 @@ services:
       - ./mail-provisioner/templates:/app/templates
       - ~/.ssh:/root/.ssh:ro
     env_file:
-      - ./mail-provisioner/.env
+      - ./.env
     networks:
       - mail_net
     depends_on:
