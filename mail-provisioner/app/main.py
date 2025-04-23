@@ -1,8 +1,8 @@
+import os
 from fastapi import FastAPI, HTTPException, Request
 from pydantic import BaseModel
 from app import ssh_client, compose_generator, postgres, registry
-import os
-
+from app.utils import slugify
 app = FastAPI()
 
 class ProvisionRequest(BaseModel):
@@ -49,6 +49,3 @@ async def provision_tenant(request: ProvisionRequest):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-
-def slugify(domain: str) -> str:
-    return domain.lower().replace('.', '_').replace('-', '_')
