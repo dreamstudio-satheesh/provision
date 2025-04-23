@@ -1,10 +1,10 @@
+# Tenant: {{ tenant }}
+
 alpha.servcp.com {
     handle_path /{{ tenant }}/jmap* {
         reverse_proxy mail_{{ tenant }}:8080
     }
-}
 
-alpha.servcp.com {
     handle_path /{{ tenant }}/admin* {
         reverse_proxy mail_{{ tenant }}:8080
     }
