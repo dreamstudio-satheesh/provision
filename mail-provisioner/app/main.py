@@ -19,6 +19,9 @@ async def provision_tenant(request: ProvisionRequest):
         # 1. Select target VM (static for now)
         target_vm = registry.select_vm(domain)
 
+        # 🔧 Compute slug once and use everywhere
+        tenant_slug = slugify(domain)
+
         # 2. Render docker-compose + env
         compose_path, config_path, env_path = compose_generator.generate(domain)
 
@@ -35,8 +38,8 @@ async def provision_tenant(request: ProvisionRequest):
         postgres.create_schema(domain)
 
         # 5. Update HAProxy + Caddy
-        registry.update_haproxy(domain, target_vm)
-        registry.update_caddy(domain, target_vm)
+        registry.update_haproxy(domain, tenant_slug)
+        registry.update_caddy(domain, tenant_slug)
 
         # 6. Register tenant
         registry.register_tenant(domain, target_vm)
@@ -45,3 +48,7 @@ async def provision_tenant(request: ProvisionRequest):
     
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+
+def slugify(domain: str) -> str:
+    return domain.lower().replace('.', '_').replace('-', '_')

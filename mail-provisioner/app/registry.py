@@ -48,4 +48,4 @@ def update_caddy(domain: str, slug: str):
 # Simple static round-robin fallback
 _next = 0
 def select_vm(domain: str) -> str:
-    return "10.1.0.3"
+    return "alpha.sercp.com"
