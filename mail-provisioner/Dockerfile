@@ -8,7 +8,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy source code
 COPY app/ ./app/
-COPY templates/ ./app/templates/
-COPY tenants/ ./app/tenants/
+COPY templates/ ./templates/
+COPY tenants/ ./tenants/
 
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
